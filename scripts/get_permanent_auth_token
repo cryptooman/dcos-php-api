@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# sudo yum install -y ruby rubygems
+# sudo gem install -y jwt
+require 'jwt'
+USER_EMAIL = "<dcos-system-user-email>"
+hmac_secret = File.read("/var/lib/dcos/dcos-oauth/auth-token-secret")
+time = Time.now.to_i + (3650 * 24 * 60 * 60) # 10 years token
+token = JWT.encode({:exp => time, :uid => USER_EMAIL}, hmac_secret, algorithm='HS256')
+puts token
